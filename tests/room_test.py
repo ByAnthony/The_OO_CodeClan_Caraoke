@@ -23,7 +23,7 @@ class TestRoom(unittest.TestCase):
         self.song_4 = Song("Born For One Thing")
         self.songs = [self.song_1, self.song_2, self.song_4]
 
-        self.playlist = [self.song_1, self.song_2, self.song_3, self.song_4]
+        self.room_playlist = [self.song_1, self.song_2, self.song_3, self.song_4]
 
     def test_room_has_name(self):
         self.assertEqual("Green", self.room_3.name)
@@ -55,6 +55,4 @@ class TestRoom(unittest.TestCase):
         self.assertEqual("Born For One Thing", self.guest_4.favorite_song)
 
     def test_find_favorite_song(self):
-        self.room_3.add_songs(self.playlist)
-        self.room_3.find_favorite_song(self.guest_2.favorite_song)
-        self.assertEqual("Could You Be Loved", self.guest_2.favorite_song)
+        self.assertEqual("Whoo!", self.room_3.find_favorite_song(self.songs, self.guest_3.favorite_song))

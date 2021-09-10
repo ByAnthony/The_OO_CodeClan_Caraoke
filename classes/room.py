@@ -5,6 +5,7 @@ class Room:
         self.guest_number = guest_number
         self.guests = []
         self.playlist = []
+        self.room_playlist = ["Bohemian Rapsodie", "Could You Be Loved", "La Seine", "Born For One Thing"]
 
     def guest_count(self):
         for guest in self.guests:
@@ -26,7 +27,8 @@ class Room:
     def add_songs(self, song_to_add):
         self.playlist.append(song_to_add)
 
-    def find_favorite_song(self, song_to_find):
-        for song in self.playlist:
+    def find_favorite_song(self, song_to_add, song_to_find):
+        self.add_songs(song_to_add)
+        for song in self.room_playlist:
             if song == song_to_find:
-                return song
+                return "Whoo!"
