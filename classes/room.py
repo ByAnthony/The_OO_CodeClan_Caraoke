@@ -25,3 +25,8 @@ class Room:
 
     def add_songs(self, song_to_add):
         self.playlist.append(song_to_add)
+
+    def find_favorite_song(self, song_to_find):
+        for song in self.playlist:
+            if song == song_to_find:
+                return song

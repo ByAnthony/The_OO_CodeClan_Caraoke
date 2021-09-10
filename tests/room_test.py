@@ -11,16 +11,16 @@ class TestRoom(unittest.TestCase):
         self.room_2 = Room("Barra", 10)
         self.room_3 = Room("Green", 15)
 
-        self.guest_1 = ["Will", 200, "Bohemian Rapsodie"]
-        self.guest_2 = ["Callum", 100, "Could You Be Loved"]
-        self.guest_3 = ["Lewis", 300, "La Seine"]
-        self.guest_4 = ["Jordan", 500, "Born For One Thing"]
+        self.guest_1 = Guest("Will", 200, "Bohemian Rapsodie")
+        self.guest_2 = Guest("Callum", 100, "Could You Be Loved")
+        self.guest_3 = Guest("Lewis", 300, "La Seine")
+        self.guest_4 = Guest("Jordan", 500, "Born For One Thing")
         self.guests = [self.guest_1, self.guest_2, self.guest_3, self.guest_4]
 
-        self.song_1 = ["Vivants", "Noe Talbot"]
-        self.song_2 = ["La Seine", "Vanessa Paradis"]
-        self.song_3 = ["Rebecca", "Les Fatals Picards"]
-        self.song_4 = ["Born For One Thing", "Gojira"]
+        self.song_1 = Song("Vivants")
+        self.song_2 = Song("La Seine")
+        self.song_3 = Song("Rebecca")
+        self.song_4 = Song("Born For One Thing")
         self.songs = [self.song_1, self.song_2, self.song_4]
 
         self.playlist = [self.song_1, self.song_2, self.song_3, self.song_4]
@@ -50,3 +50,11 @@ class TestRoom(unittest.TestCase):
     def test_add_songs(self):
         self.room_2.add_songs(self.songs)
         self.assertEqual(3, self.room_2.song_count())
+
+    def test_guest_has_favorite_song(self):
+        self.assertEqual("Born For One Thing", self.guest_4.favorite_song)
+
+    def test_find_favorite_song(self):
+        self.room_3.add_songs(self.playlist)
+        self.room_3.find_favorite_song(self.guest_2.favorite_song)
+        self.assertEqual("Could You Be Loved", self.guest_2.favorite_song)

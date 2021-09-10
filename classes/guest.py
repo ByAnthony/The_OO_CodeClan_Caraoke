@@ -11,3 +11,6 @@ class Guest:
     def entry_fee(self, entry):
         if self.sufficient_money(entry):
             self.money -= entry.fee
+
+    def guest_has_favorite_song(self):
+        return self.favorite_song
