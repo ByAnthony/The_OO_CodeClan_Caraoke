@@ -1,34 +1,31 @@
 class Room:
     
-    def __init__(self, name, guest_number):
+    def __init__(self, name, playlist, guest_number, fee):
         self.name = name
+        self.playlist = playlist
+        self.guest_list = []
         self.guest_number = guest_number
-        self.guests = []
-        self.playlist = []
-        self.room_playlist = ["Bohemian Rapsodie", "Could You Be Loved", "La Seine", "Born For One Thing"]
+        self.fee = fee
+        self.till = 0
 
     def guest_count(self):
-        for guest in self.guests:
-            return len(guest)
+        return len(self.guest_list)
 
-    def check_in(self, guest_to_check_in):
-        if len(guest_to_check_in) <= self.guest_number:
-            self.guests.append(guest_to_check_in)
-        else:
-            return "This room is too small for your group. Please book a room with a greater capacity"
+    def check_in_guests(self, guest):
+        if len(self.guest_list) <= self.guest_number and guest.wallet >= self.fee:
+            self.guest_list.append(guest)
+            self.till += self.fee
+            guest.wallet -= self.fee
 
-    def check_out(self, guest_to_check_out):
-        self.guests.remove(guest_to_check_out)
+    def check_out_guests(self, guest):
+        self.guest_list.remove(guest)
+        
+    def add_song(self, song):
+        self.playlist.append(song)
+        return self.playlist
 
-    def song_count(self):
+    def find_favorite_song(self, song_to_find):
         for song in self.playlist:
-            return len(song)
-
-    def add_songs(self, song_to_add):
-        self.playlist.append(song_to_add)
-
-    def find_favorite_song(self, song_to_add, song_to_find):
-        self.add_songs(song_to_add)
-        for song in self.room_playlist:
             if song == song_to_find:
                 return "Whoo!"
+        return "Sorry, song not found"

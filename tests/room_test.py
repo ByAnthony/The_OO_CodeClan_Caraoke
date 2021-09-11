@@ -1,58 +1,70 @@
 import unittest
+
 from classes.guest import Guest
 from classes.room import Room
 from classes.song import Song
 from classes.venue import Venue
 
+
 class TestRoom(unittest.TestCase):
-
+    
     def setUp(self):
-        self.room_1 = Room("Toolbooth", 3)
-        self.room_2 = Room("Barra", 10)
-        self.room_3 = Room("Green", 15)
+        self.venue = Venue("The Magestic")
 
-        self.guest_1 = Guest("Will", 200, "Bohemian Rapsodie")
-        self.guest_2 = Guest("Callum", 100, "Could You Be Loved")
-        self.guest_3 = Guest("Lewis", 300, "La Seine")
-        self.guest_4 = Guest("Jordan", 500, "Born For One Thing")
-        self.guests = [self.guest_1, self.guest_2, self.guest_3, self.guest_4]
+        self.room_1 = Room("Toolboth", ["Toujours Plus Con", "La Seine", "Capitaine Abandonne"], 3, 5.00)
+        self.room_2 = Room("Barra", ["One More Time", "Oxygene", "Un Autre Monde"], 8, 9.00)
+        self.room_3 = Room("Green", ["Quand La Ville Dort", "Dans Mon Verre", "Je Marche Seul"], 15, 13.00)
 
-        self.song_1 = Song("Vivants")
-        self.song_2 = Song("La Seine")
-        self.song_3 = Song("Rebecca")
-        self.song_4 = Song("Born For One Thing")
-        self.songs = [self.song_1, self.song_2, self.song_4]
+        self.song_1 = Song("Les Lacs du Connemara", "Michel Sardou")
+        self.song_2 = Song("Le Jour S'Est Leve", "Telephone")
 
-        self.room_playlist = [self.song_1, self.song_2, self.song_3, self.song_4]
+        self.guest_1 = Guest("Tony", 150.00, "Toujours Plus Con")
+        self.guest_2 = Guest("Will", 100.00, "Bohemian Rapsody")
+        self.guest_3 = Guest("Calum", 150.00, "Could You Be Loved")
+        self.guest_4 = Guest("Lewis", 200.00, "Flower Of Scotland")
+        self.guest_5 = Guest("Jordan", 300.00, "I Was Made For Lovin You")
 
-    def test_room_has_name(self):
-        self.assertEqual("Green", self.room_3.name)
+    def test_room_has_number(self):
+        self.assertEqual("Barra", self.room_2.name)   
 
-    def test_room_has_guest_number(self):
-        self.assertEqual(10, self.room_2.guest_number)
+    def test_room_has_song_list(self):
+        self.assertEqual(["Toujours Plus Con", "La Seine", "Capitaine Abandonne"], self.room_1.playlist)
 
-    def test_room_has_no_guests(self):
-        self.assertEqual(None, self.room_1.guest_count())
+    def test_check_in_guest(self):
+        self.room_1.check_in_guests(self.guest_1)
+        self.room_1.check_in_guests(self.guest_2)
+        self.room_1.check_in_guests(self.guest_3)
+        self.assertEqual(3, self.room_1.guest_count())
 
-    def test_room_check_in(self):
-        self.room_2.check_in(self.guests)
-        self.assertEqual(4, self.room_2.guest_count())
+    def test_check_out_guest(self):
+        self.room_2.check_in_guests(self.guest_3)
+        self.room_2.check_in_guests(self.guest_4)
+        self.room_2.check_out_guests(self.guest_3)
+        self.room_2.check_out_guests(self.guest_4)
+        self.assertEqual(0, self.room_2.guest_count())
 
-    def test_room_check_in__room_capacity_exceeded(self):
-        self.room_1.check_in(self.guests)
-        self.assertEqual("This room is too small for your group. Please book a room with a greater capacity", self.room_1.check_in(self.guests))
+    def test_add_song(self):
+        self.assertEqual(["Quand La Ville Dort", "Dans Mon Verre", "Je Marche Seul", "Les Lacs du Connemara"], self.room_3.add_song(self.song_1.title))
 
-    def test_room_check_out(self):
-        self.room_3.check_in(self.guests)
-        self.room_3.check_out(self.guests)
-        self.assertEqual(None, self.room_3.guest_count())
+    def test_check_in_guest__capacity_not_reached(self):
+        self.room_1.check_in_guests(self.guest_1)
+        self.room_1.check_in_guests(self.guest_2)
+        self.assertEqual(2, self.room_1.guest_count())
 
-    def test_add_songs(self):
-        self.room_2.add_songs(self.songs)
-        self.assertEqual(3, self.room_2.song_count())
+    def test_check_in_guest__capacity_exceeded(self):
+        self.room_1.check_in_guests(self.guest_3)
+        self.room_1.check_in_guests(self.guest_4)
+        self.room_1.check_in_guests(self.guest_5)
+        self.room_1.check_in_guests(self.guest_2)
+        self.assertEqual(4, self.room_1.guest_count())
 
     def test_guest_has_favorite_song(self):
-        self.assertEqual("Born For One Thing", self.guest_4.favorite_song)
+        self.assertEqual("Flower Of Scotland", self.guest_4.favorite_song)
 
     def test_find_favorite_song(self):
-        self.assertEqual("Whoo!", self.room_3.find_favorite_song(self.songs, self.guest_3.favorite_song))
+        self.assertEqual("Whoo!", self.room_1.find_favorite_song(self.guest_1.favorite_song))
+
+    def test_guest_entry_fee(self):
+        self.room_2.check_in_guests(self.guest_1)
+        self.assertEqual(9, self.room_2.till)
+        self.assertEqual(141.00, self.guest_1.wallet)
