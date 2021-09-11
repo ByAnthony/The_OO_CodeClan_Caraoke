@@ -15,7 +15,7 @@ class Guest:
 
     def add_drinks(self, drinks):
         self.tab.append(drinks)
-        return self.tab
+        return sum(self.tab)
     
     def guest_tab(self, room):
         tab = [room.fee] + self.tab

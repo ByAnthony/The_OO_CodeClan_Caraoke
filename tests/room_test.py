@@ -75,7 +75,7 @@ class TestRoom(unittest.TestCase):
         self.assertEqual(141.00, self.guest_1.wallet)
 
     def test_add_drinks(self):
-        self.assertEqual([5.00], self.guest_2.add_drinks(self.drink_2.price))
+        self.assertEqual(5.00, self.guest_2.add_drinks(self.drink_2.price))
 
     def test_guest_tab(self):
         self.guest_2.add_drinks(self.drink_2.price)
