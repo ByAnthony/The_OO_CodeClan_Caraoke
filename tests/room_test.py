@@ -4,6 +4,7 @@ from classes.guest import Guest
 from classes.room import Room
 from classes.song import Song
 from classes.venue import Venue
+from classes.bar import Bar
 
 
 class TestRoom(unittest.TestCase):
@@ -23,6 +24,10 @@ class TestRoom(unittest.TestCase):
         self.guest_3 = Guest("Calum", 150.00, "Could You Be Loved")
         self.guest_4 = Guest("Lewis", 200.00, "Flower Of Scotland")
         self.guest_5 = Guest("Jordan", 300.00, "I Was Made For Lovin You")
+
+        self.drink_1 = Bar("Irn Bru", 2.00)
+        self.drink_2 = Bar("Rince Cochon", 5.00)
+        self.drink_3 = Bar("Chablis", 10.00)
 
     def test_room_has_number(self):
         self.assertEqual("Barra", self.room_2.name)   
@@ -68,3 +73,11 @@ class TestRoom(unittest.TestCase):
         self.room_2.check_in_guests(self.guest_1)
         self.assertEqual(9, self.room_2.till)
         self.assertEqual(141.00, self.guest_1.wallet)
+
+    def test_add_drinks(self):
+        self.assertEqual([5.00], self.guest_2.add_drinks(self.drink_2.price))
+
+    def test_guest_tab(self):
+        self.guest_2.add_drinks(self.drink_2.price)
+        self.guest_2.add_drinks(self.drink_3.price)
+        self.assertEqual(24.00, self.guest_2.guest_tab(self.room_2))
