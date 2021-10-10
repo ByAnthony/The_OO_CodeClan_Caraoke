@@ -1,4 +1,4 @@
-# Homework: The_OO_CodeClan_Caraoke
+# Homework: The CodeClan Caraoke
 
 You have been approached to build software for a Karaoke bar. Specifically, they want you to build a software for checking guests in and out, plus handling songs.
 
